@@ -58,6 +58,7 @@ Jagadiswar is currently pursuing a Bachelor of Technology in Computer Science an
 - HTML5
 - CSS3
 - Vanilla JavaScript
+- Node.js and Express
 - Google Fonts: Cormorant Garamond and Jost
 - GitHub Pages
 
@@ -72,6 +73,30 @@ Jagadiswar is currently pursuing a Bachelor of Technology in Computer Science an
 2. Open `index.html` in a browser.
 
 No build tools or dependencies are required.
+
+## Node.js Contact API
+
+The repository also includes a small Express backend in `server.js` for receiving contact messages.
+
+Run it locally:
+
+```bash
+npm install
+npm start
+```
+
+Available endpoints:
+
+- `GET /api/health` - service health check
+- `POST /api/contact` - validates and accepts a contact message
+
+For Render, create a Web Service connected to this repository with:
+
+- **Build command:** `npm install`
+- **Start command:** `npm start`
+- **Environment variable:** `FRONTEND_ORIGIN=https://jagadiswar2050.github.io`
+
+GitHub Pages hosts the static portfolio frontend; Render hosts the Node.js API.
 
 ## Contact
 
