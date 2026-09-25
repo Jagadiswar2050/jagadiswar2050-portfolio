@@ -419,6 +419,15 @@
       transform: translateZ(58px) scale(1.07);
       filter: saturate(1.08) contrast(1.06);
     }
+    .avatar-card.is-turning {
+      animation: profileTurn .9s cubic-bezier(.23,1,.32,1);
+    }
+
+    @keyframes profileTurn {
+      0% { transform: rotateX(12deg) rotateY(-18deg) translateY(0) scale(1); }
+      45% { transform: rotateX(12deg) rotateY(162deg) translateY(-8px) scale(1.04); }
+      100% { transform: rotateX(12deg) rotateY(342deg) translateY(0) scale(1); }
+    }
     .avatar-badge {
       position: absolute; bottom: -18px; right: 10px;
       background: rgba(26, 10, 8, 0.78);
@@ -1142,6 +1151,12 @@
         void option.offsetWidth;
         option.classList.add('is-clicking');
         setTimeout(() => option.classList.remove('is-clicking'), 650);
+        if (option.classList.contains('avatar-card')) {
+          option.classList.remove('is-turning');
+          void option.offsetWidth;
+          option.classList.add('is-turning');
+          setTimeout(() => option.classList.remove('is-turning'), 900);
+        }
       });
     });
 
