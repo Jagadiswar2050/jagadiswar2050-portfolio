@@ -82,6 +82,23 @@
     .cursor.is-scrolling .cursor-dot { transform: translate(-50%,-50%) scale(.65); background: var(--fire-3); }
     body:hover .cursor-ring { opacity: 1; }
 
+    a.is-clicking,
+    button.is-clicking,
+    .skill-card.is-clicking,
+    .interest-chip.is-clicking,
+    .contact-link.is-clicking,
+    .chip.is-clicking,
+    .avatar-card.is-clicking {
+      animation: rainbowClick .65s ease;
+    }
+
+    @keyframes rainbowClick {
+      0% { filter: hue-rotate(0deg) saturate(1); text-shadow: none; }
+      35% { filter: hue-rotate(120deg) saturate(1.8); text-shadow: 0 0 10px #ff4d6d, 0 0 18px #54d2ff; }
+      70% { filter: hue-rotate(240deg) saturate(1.8); text-shadow: 0 0 10px #ffe66d, 0 0 18px #b86cff; }
+      100% { filter: hue-rotate(360deg) saturate(1); text-shadow: none; }
+    }
+
     body::before {
       content: '';
       position: fixed; inset: 0; z-index: 0;
@@ -1005,6 +1022,15 @@
     document.querySelectorAll('a, button, .skill-card, .interest-chip, .avatar-card').forEach(el => {
       el.addEventListener('mouseenter', () => { ring.style.transform = 'translate(-50%,-50%) scale(1.6)'; ring.style.opacity = '.4'; });
       el.addEventListener('mouseleave', () => { ring.style.transform = 'translate(-50%,-50%) scale(1)'; ring.style.opacity = '1'; });
+    });
+
+    document.querySelectorAll('a, button, .skill-card, .interest-chip, .contact-link, .chip, .avatar-card').forEach(option => {
+      option.addEventListener('click', () => {
+        option.classList.remove('is-clicking');
+        void option.offsetWidth;
+        option.classList.add('is-clicking');
+        setTimeout(() => option.classList.remove('is-clicking'), 650);
+      });
     });
 
     document.addEventListener('mousemove', (event) => {
