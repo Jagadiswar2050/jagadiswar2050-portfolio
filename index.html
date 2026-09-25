@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Thallapaka Jagadiswar | Portfolio</title>
   <meta name="description" content="Portfolio of Thallapaka Jagadiswar, a B.Tech Computer Science and Technology student building thoughtful digital solutions." />
+  <meta name="theme-color" content="#130b0d" />
+  <meta name="color-scheme" content="dark" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -29,6 +31,11 @@
     }
 
     html { scroll-behavior: smooth; }
+
+    :focus-visible {
+      outline: 2px solid var(--fire-3);
+      outline-offset: 4px;
+    }
 
     body {
       background: radial-gradient(circle at top, rgba(255,107,59,0.22), transparent 22%),
@@ -131,6 +138,22 @@
     }
     nav.scrolled { padding: .9rem 5vw; }
 
+    .skip-link {
+      position: fixed;
+      top: .75rem;
+      left: 1rem;
+      z-index: 200;
+      padding: .65rem 1rem;
+      background: var(--cream);
+      color: var(--bg-1);
+      font-size: .78rem;
+      font-weight: 600;
+      text-decoration: none;
+      transform: translateY(-180%);
+      transition: transform .2s ease;
+    }
+    .skip-link:focus { transform: translateY(0); }
+
     .nav-logo {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.55rem;
@@ -163,6 +186,23 @@
     }
     .nav-links a:hover { color: var(--ember); }
     .nav-links a:hover::after { width: 100%; }
+
+    .nav-toggle {
+      display: none;
+      width: 2.75rem;
+      height: 2.75rem;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 123, 44, .08);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--ember);
+      cursor: pointer;
+    }
+    .nav-toggle svg { width: 1.25rem; height: 1.25rem; }
+    .nav-toggle .close-icon { display: none; }
+    .nav-toggle[aria-expanded="true"] .menu-icon { display: none; }
+    .nav-toggle[aria-expanded="true"] .close-icon { display: block; }
 
     #hero {
       min-height: 100vh;
@@ -234,6 +274,32 @@
       margin-bottom: 2rem;
       opacity: 0;
       animation: fadeUp .7s .6s forwards;
+    }
+
+    .availability {
+      display: inline-flex;
+      align-items: center;
+      gap: .55rem;
+      margin: 0 0 1.4rem;
+      padding: .45rem .75rem;
+      border: 1px solid rgba(255, 200, 87, .28);
+      border-radius: 999px;
+      background: rgba(255, 123, 44, .08);
+      color: var(--ember);
+      font-size: .72rem;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp .7s .7s forwards;
+    }
+    .availability::before {
+      content: '';
+      width: .45rem;
+      height: .45rem;
+      border-radius: 50%;
+      background: #8ee6a8;
+      box-shadow: 0 0 0 4px rgba(142, 230, 168, .12), 0 0 12px rgba(142, 230, 168, .55);
     }
 
     .hero-desc {
@@ -338,15 +404,20 @@
       transform: translateZ(20px);
       box-shadow: inset 0 0 20px rgba(255, 244, 191, 0.28);
     }
-    .avatar-initials {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 6rem;
-      font-weight: 300;
-      color: rgba(255,255,255,.96);
-      z-index: 1;
-      letter-spacing: -.02em;
-      text-shadow: 0 12px 24px rgba(90,20,0,.3), 0 0 22px rgba(255,247,203,.4);
-      transform: translateZ(55px);
+    .avatar-photo {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center top;
+      mix-blend-mode: normal;
+      filter: saturate(.92) contrast(1.04);
+      transform: translateZ(45px) scale(1.03);
+      transition: transform .6s cubic-bezier(.23,1,.32,1), filter .4s ease;
+    }
+    .avatar-card:hover .avatar-photo {
+      transform: translateZ(58px) scale(1.07);
+      filter: saturate(1.08) contrast(1.06);
     }
     .avatar-badge {
       position: absolute; bottom: -18px; right: 10px;
@@ -724,8 +795,41 @@
       .nav-links { gap: 1.4rem; }
     }
     @media (max-width: 600px) {
-      .nav-links { display: none; }
+      nav { padding: 1rem 5vw; }
+      .nav-toggle { display: inline-flex; }
+      .nav-links {
+        display: flex;
+        position: absolute;
+        top: calc(100% + 1px);
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        padding: .6rem 5vw 1rem;
+        background: rgba(19, 11, 13, .97);
+        border-bottom: 1px solid var(--line);
+        box-shadow: 0 18px 28px rgba(0, 0, 0, .2);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-8px);
+        transition: opacity .2s ease, transform .2s ease, visibility .2s ease;
+      }
+      .nav-links.is-open {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      .nav-links li { border-top: 1px solid rgba(255, 164, 90, .1); }
+      .nav-links a { display: block; padding: .9rem 0; }
       .hero-name { font-size: 3rem; }
+      #hero { min-height: auto; padding-bottom: 6rem; }
+      .hero-visual { margin-top: 2rem; }
+      .avatar-card { transform: scale(.82) rotateX(12deg) rotateY(-18deg); margin: -1.5rem 0; }
+      section { padding: 5rem 5vw; }
+      .section-heading { margin-bottom: 2.5rem; }
+      .about-grid { gap: 2.5rem; }
+      .contact-links, .hero-cta { align-items: stretch; }
+      .contact-link, .btn { justify-content: center; min-height: 2.9rem; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -741,14 +845,19 @@
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
   <div class="cursor" id="cursor" aria-hidden="true">
     <div class="cursor-ring" id="cursorRing"></div>
     <div class="cursor-dot" id="cursorDot"></div>
   </div>
 
-  <nav id="navbar">
+  <nav id="navbar" aria-label="Primary navigation">
     <a href="#hero" class="nav-logo">TJ<span>.Portfolio</span></a>
-    <ul class="nav-links">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-links" aria-label="Open navigation menu">
+      <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+      <svg class="close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
+    <ul class="nav-links" id="primary-links">
       <li><a href="#about">About</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#education">Education</a></li>
@@ -757,14 +866,16 @@
     </ul>
   </nav>
 
-  <section id="hero">
+  <main id="main-content">
+  <section id="hero" aria-labelledby="hero-heading">
     <div class="hero-bg-circle c1"></div>
     <div class="hero-bg-circle c2"></div>
 
     <div class="hero-text">
       <p class="hero-eyebrow">Hello, I'm</p>
-      <h1 class="hero-name">Thallapaka<br/><em>Jagadiswar</em></h1>
+      <h1 class="hero-name" id="hero-heading">Thallapaka<br/><em>Jagadiswar</em></h1>
       <p class="hero-title">B.Tech CST Student &amp; Aspiring Developer</p>
+      <p class="availability" role="status">Open to learning and collaboration</p>
       <p class="hero-desc">
         Passionate about technology, web development, and building innovative digital solutions.
         Currently studying at Takshashila University, Tamil Nadu.
@@ -785,7 +896,7 @@
       <div class="avatar-card">
         <div class="avatar-tag">✦ B.Tech CST</div>
         <div class="avatar-frame">
-          <div class="avatar-initials">TJ</div>
+          <img class="avatar-photo" src="profile.png" alt="Portrait of Thallapaka Jagadiswar" />
         </div>
         <div class="avatar-badge">📍 Tirupati, AP</div>
       </div>
@@ -794,10 +905,10 @@
 
   <div class="divider"></div>
 
-  <section id="about">
+  <section id="about" aria-labelledby="about-heading">
     <div class="reveal">
       <p class="section-label">Who I Am</p>
-      <h2 class="section-heading">A Developer with<br/><em>Purpose &amp; Passion</em></h2>
+      <h2 class="section-heading" id="about-heading">A Developer with<br/><em>Purpose &amp; Passion</em></h2>
     </div>
     <div class="about-grid">
       <div class="about-side reveal">
@@ -855,10 +966,10 @@
 
   <div class="divider"></div>
 
-  <section id="skills">
+  <section id="skills" aria-labelledby="skills-heading">
     <div class="reveal">
       <p class="section-label">What I Do</p>
-      <h2 class="section-heading">Technical <em>Expertise</em></h2>
+      <h2 class="section-heading" id="skills-heading">Technical <em>Expertise</em></h2>
     </div>
     <div class="skills-grid">
       <div class="skill-card reveal">
@@ -919,10 +1030,10 @@
 
   <div class="divider"></div>
 
-  <section id="education">
+  <section id="education" aria-labelledby="education-heading">
     <div class="reveal">
       <p class="section-label">My Journey</p>
-      <h2 class="section-heading">Academic <em>Background</em></h2>
+      <h2 class="section-heading" id="education-heading">Academic <em>Background</em></h2>
     </div>
     <div class="timeline">
       <div class="tl-item">
@@ -944,10 +1055,10 @@
 
   <div class="divider"></div>
 
-  <section id="interests">
+  <section id="interests" aria-labelledby="interests-heading">
     <div class="reveal">
       <p class="section-label">What Drives Me</p>
-      <h2 class="section-heading">Areas of <em>Interest</em></h2>
+      <h2 class="section-heading" id="interests-heading">Areas of <em>Interest</em></h2>
     </div>
     <div class="interests-grid reveal">
       <div class="interest-chip">
@@ -985,9 +1096,9 @@
     </div>
   </section>
 
-  <section id="contact">
+  <section id="contact" aria-labelledby="contact-heading">
     <p class="section-label">Let's Connect</p>
-    <h2 class="section-heading">Ready to <em>Collaborate?</em></h2>
+    <h2 class="section-heading" id="contact-heading">Ready to <em>Collaborate?</em></h2>
     <p class="contact-sub">Whether it's a project, opportunity, or just a hello — my inbox is always open.</p>
     <div class="contact-links">
       <a href="mailto:jagadishkrishna7@gmail.com" class="contact-link">
@@ -1004,6 +1115,7 @@
       </a>
     </div>
   </section>
+  </main>
 
   <footer>
     <p>© <span id="currentYear"></span> Thallapaka Jagadiswar &nbsp;·&nbsp; Crafted with <span>♥</span> in Tamil Nadu, India</p>
@@ -1044,6 +1156,32 @@
     });
 
     const navbar = document.getElementById('navbar');
+    const navToggle = document.querySelector('.nav-toggle');
+    const primaryLinks = document.getElementById('primary-links');
+    const setMenuOpen = (isOpen) => {
+      navToggle.setAttribute('aria-expanded', String(isOpen));
+      navToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+      primaryLinks.classList.toggle('is-open', isOpen);
+      document.body.classList.toggle('menu-open', isOpen);
+    };
+    navToggle.addEventListener('click', () => {
+      setMenuOpen(navToggle.getAttribute('aria-expanded') !== 'true');
+    });
+    primaryLinks.addEventListener('click', event => {
+      if (event.target.closest('a')) setMenuOpen(false);
+    });
+    document.addEventListener('click', event => {
+      if (window.innerWidth <= 600 && !navbar.contains(event.target)) setMenuOpen(false);
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && navToggle.getAttribute('aria-expanded') === 'true') {
+        setMenuOpen(false);
+        navToggle.focus();
+      }
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 600) setMenuOpen(false);
+    }, { passive: true });
     window.addEventListener('scroll', () => {
       navbar.classList.toggle('scrolled', window.scrollY > 50);
       if (finePointer && !reducedMotion) {
