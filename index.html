@@ -70,7 +70,7 @@
       border-radius: 50%;
       position: absolute;
       transform: translate(-50%,-50%);
-      transition: all .35s cubic-bezier(.23,1,.32,1);
+      transition: width .2s cubic-bezier(.23,1,.32,1), height .2s cubic-bezier(.23,1,.32,1), border-color .2s ease, box-shadow .2s ease, opacity .2s ease, transform .2s ease;
       opacity: .6;
     }
     .cursor.is-scrolling .cursor-ring {
@@ -1001,7 +1001,7 @@
     const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     let scrollTimer;
     document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; dot.style.left = mx+'px'; dot.style.top = my+'px'; });
-    (function animRing() { rx += (mx-rx)*.12; ry += (my-ry)*.12; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(animRing); })();
+    (function animRing() { rx += (mx-rx)*.32; ry += (my-ry)*.32; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(animRing); })();
     document.querySelectorAll('a, button, .skill-card, .interest-chip, .avatar-card').forEach(el => {
       el.addEventListener('mouseenter', () => { ring.style.transform = 'translate(-50%,-50%) scale(1.6)'; ring.style.opacity = '.4'; });
       el.addEventListener('mouseleave', () => { ring.style.transform = 'translate(-50%,-50%) scale(1)'; ring.style.opacity = '1'; });
